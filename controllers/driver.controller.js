@@ -17,4 +17,29 @@ async function addDriver(req, res){
     }
 }
 
-export { addDriver };
+async function driverHistory(req, res){
+    const { id } = req.params;
+    try{
+        const driver = await Driver.findOne({ id }).populate(
+            { 
+                path: "history.route",
+                select: "startLocation endLocation distance estimatedTime -_id"
+            }
+        );
+        if(!driver){
+            return res.status(404).json({ status: FAIL, message: "Driver not found" });
+        }
+        const history = driver.history.map(h => ({
+            startLocation: h.route.startLocation,
+            endLocation: h.route.endLocation,
+            distance: h.route.distance,
+            completionTime: h.completedAt
+        }));
+        res.status(200).json({ status: SUCCESS, data: history });
+    }catch(err){
+        res.status(500).json({ status: ERROR, message: "Failed to retrieve driver history", error: err });
+    }
+
+}
+
+export { addDriver, driverHistory };

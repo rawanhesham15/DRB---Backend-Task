@@ -4,7 +4,13 @@ const driverSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     licenseType: { type: String, required: true },
-    availability: { type: Boolean, required: true }
+    availability: { type: Boolean, required: true },
+    history: [
+    {
+      route: { type: mongoose.Schema.Types.ObjectId, ref: "Route" },
+      completedAt: { type: Date, default: Date.now }
+    }
+  ]
 });
 
 const Driver = mongoose.model("Driver", driverSchema);
