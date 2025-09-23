@@ -6,6 +6,6 @@ const routeRouter = Router();
 
 routeRouter.get("/", getAllRoutes);
 routeRouter.post("/add", routeValidator, addRoute);
-routeRouter.post("/:id/completed", completeRoute);
+routeRouter.patch("/:id/completed", completeRoute);
 
 export default routeRouter;
