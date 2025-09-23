@@ -23,7 +23,7 @@ async function getSchedule(req, res) {
         }
       }
     }
-    const schedule = await Route.find({}, {__v: 0}).populate("assignedDriver", "id name licenseType -_id");
+    const schedule = await Route.find({status: "active"}, {__v: 0}).populate("assignedDriver", "id name licenseType -_id");
     res.status(200).json({ status: SUCCESS, data: schedule });
   } catch (err) {
     res.status(500).json({ status: ERROR, message: err.message });
